@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Heading, HStack, IconButton, Text, useTheme, VStack, FlatList, Center } from 'native-base';
 import { ChatTeardropText, SignOut } from 'phosphor-react-native';
 
@@ -11,57 +12,66 @@ import { Button } from '../components/Button';
 export function Home() {
     const [statusSelected, setStatusSelected] = useState<FilterType>('open');
     const [orders, setOrders] = useState<OrderProps[]>([
-        // {
-        //     id: 1,
-        //     patrimony: '123456789',
-        //     when: '2020-01-01',
-        //     status: 'open',
-        // },
-        // {
-        //     id: 2,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // },
-        // {
-        //     id: 3,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // },
-        // {
-        //     id: 4,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // },
-        // {
-        //     id: 5,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // },
-        // {
-        //     id: 6,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // },
-        // {
-        //     id: 7,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // },
-        // {
-        //     id: 8,
-        //     patrimony: '123456789',
-        //     when: '2020-01-02',
-        //     status: 'closed',
-        // }
+        {
+            id: 1,
+            patrimony: '123456789',
+            when: '2020-01-01',
+            status: 'open',
+        },
+        {
+            id: 2,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        },
+        {
+            id: 3,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        },
+        {
+            id: 4,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        },
+        {
+            id: 5,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        },
+        {
+            id: 6,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        },
+        {
+            id: 7,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        },
+        {
+            id: 8,
+            patrimony: '123456789',
+            when: '2020-01-02',
+            status: 'closed',
+        }
     ]);
 
+    const navigation = useNavigation();
     const { colors } = useTheme();
+
+    function handleNewOrder() {
+        navigation.navigate('register');
+    }
+
+    function handleOpenDetails(orderId: string) {
+        navigation.navigate('details', { orderId });
+    }
 
     return (
         <VStack flex={1} pb={6} bg="gray.700">
@@ -86,7 +96,7 @@ export function Home() {
                         My Calls
                     </Heading>
                     <Text color="gray.200">
-                        3
+                        {orders.length}
                     </Text>
                 </HStack>
 
@@ -108,7 +118,7 @@ export function Home() {
                 <FlatList
                     data={orders}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => <Order data={item} />}
+                    renderItem={({ item }) => <Order data={item} onPress={() => handleOpenDetails(String(item.id))} />}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 100 }}
                     ListEmptyComponent={() => (
@@ -122,7 +132,7 @@ export function Home() {
                     )}
                 />
 
-                <Button title="New Call" />
+                <Button title="New Call" onPress={handleNewOrder} />
             </VStack>
         </VStack>
     );
