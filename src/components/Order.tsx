@@ -3,7 +3,7 @@ import { ClockAfternoon, Hourglass, CircleWavyCheck } from 'phosphor-react-nativ
 import { FilterType } from './Filter';
 
 export type OrderProps = {
-    id: number;
+    id: string;
     patrimony: string;
     when: string;
     status: FilterType;
